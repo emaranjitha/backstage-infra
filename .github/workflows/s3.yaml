@@ -1,0 +1,65 @@
+name: Manage S3 & cloudfront
+
+on:
+  workflow_dispatch:
+    inputs:
+      awsRegion:
+        description: 'AWS Region to deploy'
+        required: true
+      action:
+        description: 'Action to perform (apply/destroy)'
+        required: true
+
+jobs:
+  apply_cluster:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.action == 'apply' }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWSACCESSKEYID }}
+        aws-secret-access-key: ${{ secrets.AWSSECRETACCESSKEY }}
+    - name: Terraform Init
+      run: terraform init
+      working-directory: Terraform
+    - name: Terraform Format
+      run: terraform fmt
+      working-directory: Terraform
+    - name: Terraform Validate
+      run: terraform validate
+      working-directory: Terraform
+    - name: Terraform Apply
+      run: terraform apply -var-file=terraform.tfvars -var awsRegion=${{ github.event.inputs.awsRegion }} -auto-approve
+      
+
+  destroy_cluster:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.action == 'destroy' }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWSACCESSKEYID }}
+        aws-secret-access-key: ${{ secrets.AWSSECRETACCESSKEY }}
+    - name: Terraform Init
+      run: terraform init
+      working-directory: Terraform
+    - name: Terraform FMT
+      run: terraform fmt
+      working-directory: Terraform
+    - name: Terraform Validate
+      run: terraform validate
+      working-directory: Terraform
+    - name: Terraform Destroy
+      run: terraform destroy -var-file=terraform.tfvars -var awsRegion=${{ github.event.inputs.awsRegion }} -auto-approve
+    
+
+
+
+
+  
