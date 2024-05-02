@@ -41,7 +41,11 @@ resource "aws_s3_bucket_policy" "this" {
       {
         Principal = "*"
         Action = [
-          "s3:*",
+                "s3:PutObject",
+                "s3:PutObjectAcl",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:DeleteObject"
         ]
         Effect = "Allow"
         Resource = [
