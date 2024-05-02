@@ -3,7 +3,7 @@ name: Manage S3 & cloudfront
 on:
   workflow_dispatch:
     inputs:
-      awsRegion:
+      region:
         description: 'AWS Region to deploy'
         required: true
       action:
@@ -16,9 +16,9 @@ jobs:
     if: ${{ github.event.inputs.action == 'apply' }}
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@v2
       with:
         aws-access-key-id: ${{ secrets.AWSACCESSKEYID }}
         aws-secret-access-key: ${{ secrets.AWSSECRETACCESSKEY }}
@@ -32,7 +32,7 @@ jobs:
       run: terraform validate
       working-directory: Terraform
     - name: Terraform Apply
-      run: terraform apply -var-file=terraform.tfvars -var awsRegion=${{ github.event.inputs.awsRegion }} -auto-approve
+      run: terraform apply -var-file=terraform.tfvars -var region=${{ github.event.inputs.awsRegion }} -auto-approve
       
 
   destroy_cluster:
@@ -56,7 +56,7 @@ jobs:
       run: terraform validate
       working-directory: Terraform
     - name: Terraform Destroy
-      run: terraform destroy -var-file=terraform.tfvars -var awsRegion=${{ github.event.inputs.awsRegion }} -auto-approve
+      run: terraform destroy -var-file=terraform.tfvars -var region=${{ github.event.inputs.awsRegion }} -auto-approve
     
 
 
