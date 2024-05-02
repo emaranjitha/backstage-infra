@@ -1,5 +1,5 @@
 # Common
-project     = "backstage-poc-infra"
+project     = "backstage-infra"
 environment = "dev"
 region      = "us-east-1"
 
