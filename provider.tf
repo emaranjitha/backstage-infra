@@ -1,5 +1,6 @@
 provider "aws" {
   region = var.region
+  profile = "user-2"
 
   default_tags {
     tags = {
@@ -7,8 +8,6 @@ provider "aws" {
       Environment = var.environment
     }
   }
-  access_key = "AKIAZQ3DSO5PSWNFK5XE"
-  secret_key = "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"
 }
 
 terraform {
