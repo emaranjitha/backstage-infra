@@ -41,11 +41,7 @@ resource "aws_s3_bucket_policy" "this" {
       {
         Principal = "*"
         Action = [
-                "s3:PutObject",
-                "s3:PutObjectAcl",
-                "s3:GetObject",
-                "s3:GetObjectAcl",
-                "s3:DeleteObject"
+          "s3:*",
         ]
         Effect = "Allow"
         Resource = [
@@ -55,6 +51,9 @@ resource "aws_s3_bucket_policy" "this" {
       }
     ]
   })
+  
+  depends_on = [aws_s3_bucket_public_access_block.this]
+}
   
   depends_on = [aws_s3_bucket_public_access_block.this]
 }
