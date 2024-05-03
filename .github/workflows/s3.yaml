@@ -3,7 +3,7 @@ name: Manage S3 & cloudfront
 on:
   workflow_dispatch:
     inputs:
-      aws-region:
+      region:
         description: 'AWS Region to deploy'
         required: true
       action:
@@ -18,11 +18,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v3
+      uses: aws-actions/configure-aws-credentials@v2
       with:
         aws-access-key-id: ${{ secrets.AWSACCESSKEYID }}
         aws-secret-access-key: ${{ secrets.AWSSECRETACCESSKEY }}
-        aws-region: us-east-1
     - name: Terraform Init
       run: terraform init
     - name: Terraform Format
@@ -30,7 +29,7 @@ jobs:
     - name: Terraform Validate
       run: terraform validate
     - name: Terraform Apply
-      run: terraform apply -var region=${{ github.event.inputs.aws-region }} -var-file=terraform.tfvars -auto-approve
+      run: terraform apply -var region=${{ github.event.inputs.region }} -var-file=terraform.tfvars -auto-approve
       
 
   destroy_cluster:
@@ -40,11 +39,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v3
+      uses: aws-actions/configure-aws-credentials@v2
       with:
         aws-access-key-id: ${{ secrets.AWSACCESSKEYID }}
         aws-secret-access-key: ${{ secrets.AWSSECRETACCESSKEY }}
-        aws-region: us-east-1
     - name: Terraform Init
       run: terraform init
     - name: Terraform FMT
@@ -52,7 +50,7 @@ jobs:
     - name: Terraform Validate
       run: terraform validate
     - name: Terraform Destroy
-      run: terraform destroy -var region=${{ github.event.inputs.aws-region }} -var-file=terraform.tfvars -auto-approve
+      run: terraform destroy -var region=${{ github.event.inputs.region }} -var-file=terraform.tfvars -auto-approve
     
 
 
