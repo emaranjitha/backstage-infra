@@ -3,7 +3,7 @@ name: Manage S3 & cloudfront
 on:
   workflow_dispatch:
     inputs:
-      region:
+      aws-region:
         description: 'AWS Region to deploy'
         required: true
       action:
@@ -30,7 +30,7 @@ jobs:
     - name: Terraform Validate
       run: terraform validate
     - name: Terraform Apply
-      run: terraform apply -var region=${{ github.event.inputs.region }} -var-file=terraform.tfvars -auto-approve
+      run: terraform apply -var region=${{ github.event.inputs.aws-region }} -var-file=terraform.tfvars -auto-approve
       
 
   destroy_cluster:
@@ -52,7 +52,7 @@ jobs:
     - name: Terraform Validate
       run: terraform validate
     - name: Terraform Destroy
-      run: terraform destroy -var region=${{ github.event.inputs.region }} -var-file=terraform.tfvars -auto-approve
+      run: terraform destroy -var region=${{ github.event.inputs.aws-region }} -var-file=terraform.tfvars -auto-approve
     
 
 
