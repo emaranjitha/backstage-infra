@@ -22,6 +22,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWSACCESSKEYID }}
         aws-secret-access-key: ${{ secrets.AWSSECRETACCESSKEY }}
+        aws-region: ${{ github.event.inputs.region }}
     - name: Terraform Init
       run: terraform init
     - name: Terraform Format
@@ -43,6 +44,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWSACCESSKEYID }}
         aws-secret-access-key: ${{ secrets.AWSSECRETACCESSKEY }}
+        aws-region: ${{ github.event.inputs.region }}
     - name: Terraform Init
       run: terraform init
     - name: Terraform FMT
